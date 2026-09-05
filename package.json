@@ -1,0 +1,23 @@
+{
+  "name": "baygeta-workout",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pitipume/baygeta-workout.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pitipume/baygeta-workout/issues"
+  },
+  "homepage": "https://github.com/pitipume/baygeta-workout#readme",
+  "dependencies": {
+    "xlsx": "^0.18.5"
+  }
+}

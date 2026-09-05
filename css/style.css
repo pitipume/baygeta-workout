@@ -1,0 +1,323 @@
+:root {
+  color-scheme: dark;
+  --bg: #0d0d0d;
+  --bg-texture: #111111;
+  --surface: #1a1a1a;
+  --surface-2: #232323;
+  --text-primary: #f5f5f0;
+  --text-secondary: #b3b3ab;
+  --text-muted: #75756e;
+  --red: #e6183c;
+  --red-dark: #a30f2b;
+  --red-wash: rgba(230, 24, 60, 0.12);
+  --gold: #f5c518;
+  --gold-dark: #c49e12;
+  --gold-wash: rgba(245, 197, 24, 0.12);
+  --success: #3ecf5f;
+  --border: rgba(255, 255, 255, 0.10);
+  --border-strong: rgba(255, 255, 255, 0.22);
+  --font-display: 'Russo One', system-ui, sans-serif;
+  --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", "Sarabun", "Noto Sans Thai", Roboto, sans-serif;
+}
+
+* { box-sizing: border-box; }
+html, body { max-width: 100%; overflow-x: hidden; }
+body {
+  margin: 0;
+  background:
+    radial-gradient(circle, rgba(255,255,255,0.035) 1px, transparent 1px) 0 0 / 18px 18px,
+    var(--bg);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  padding-bottom: 84px; /* clears the fixed bottom tabbar on mobile */
+}
+h1, h2, h3 { font-family: var(--font-body); font-weight: 700; }
+p { line-height: 1.55; }
+a { color: var(--gold); }
+
+/* ===== Topbar ===== */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 16px 16px 12px;
+  border-bottom: 2px solid var(--border-strong);
+  background: linear-gradient(180deg, #161616, var(--bg));
+}
+.brand { display: flex; flex-direction: column; gap: 2px; }
+.brand-mark { font-family: var(--font-display); font-size: 19px; letter-spacing: 0.5px; }
+.brand-mark .brand-accent { color: var(--red); text-shadow: 0 0 14px var(--red-wash); }
+.brand-tag { font-size: 11px; color: var(--text-muted); font-weight: 600; }
+.version-badge {
+  font-family: var(--font-display);
+  font-size: 11px;
+  padding: 5px 10px;
+  background: var(--gold);
+  color: #1a1400;
+  border-radius: 4px;
+  transform: rotate(-3deg);
+  white-space: nowrap;
+  box-shadow: 0 2px 0 var(--gold-dark);
+}
+
+/* ===== Tab nav — bottom bar on mobile, top row on desktop ===== */
+.tabbar {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  display: flex;
+  background: #141414;
+  border-top: 2px solid var(--border-strong);
+  z-index: 20;
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+.tab-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 9px 4px 8px;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 600;
+  font-family: var(--font-body);
+  cursor: pointer;
+}
+.tab-btn span { font-size: 10.5px; }
+.tab-btn.active { color: var(--gold); }
+.tab-btn.active::before {
+  content: '';
+  position: absolute;
+  transform: translateY(-30px);
+  width: 22px; height: 3px;
+  background: var(--gold);
+  border-radius: 2px;
+}
+
+@media (min-width: 768px) {
+  body { padding-bottom: 24px; }
+  .tabbar {
+    position: static;
+    border-top: none;
+    border-bottom: 2px solid var(--border-strong);
+    justify-content: center;
+    gap: 4px;
+    padding: 6px 16px;
+  }
+  .tab-btn {
+    flex: none;
+    flex-direction: row;
+    gap: 7px;
+    padding: 10px 18px;
+    border-radius: 8px 8px 0 0;
+  }
+  .tab-btn.active { background: var(--surface); }
+  .tab-btn.active::before { display: none; }
+}
+
+/* ===== Layout ===== */
+#app {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.view { display: flex; flex-direction: column; gap: 14px; }
+
+/* ===== Card ===== */
+.card {
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  position: relative;
+}
+.card h2 { font-size: 16px; margin: 0 0 6px; }
+.hint { font-size: 12.5px; color: var(--text-muted); margin: 0 0 14px; }
+
+/* ===== Buttons ===== */
+button { font-family: var(--font-body); }
+.btn-primary {
+  width: 100%;
+  padding: 13px;
+  font-size: 15px;
+  font-weight: 700;
+  background: var(--red);
+  color: #fff;
+  border: none;
+  border-radius: 9px;
+  box-shadow: 0 3px 0 var(--red-dark);
+  cursor: pointer;
+}
+.btn-primary:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--red-dark); }
+.save-toast {
+  margin-top: 10px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--success);
+}
+
+/* ===== Setup form ===== */
+.field-row { display: flex; flex-direction: column; gap: 4px; margin-bottom: 12px; }
+.field-row label { font-size: 13px; font-weight: 600; color: var(--text-secondary); }
+.field-row input, .field-row select {
+  font-size: 16px;
+  padding: 11px;
+  border-radius: 8px;
+  border: 1px solid var(--border-strong);
+  background: var(--surface-2);
+  color: var(--text-primary);
+}
+
+/* ===== Day picker (workout tabs) ===== */
+.day-picker {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+.day-btn {
+  flex: none;
+  padding: 9px 16px;
+  font-size: 13px;
+  font-weight: 700;
+  border-radius: 999px;
+  border: 2px solid var(--border-strong);
+  background: var(--surface);
+  color: var(--text-secondary);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.day-btn.active { background: var(--red); border-color: var(--red); color: #fff; }
+
+/* ===== Exercise cards ===== */
+.exercise-card { background: var(--surface); border: 2px solid var(--border); border-radius: 12px; margin-bottom: 10px; overflow: hidden; }
+.exercise-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 14px;
+  cursor: pointer;
+}
+.exercise-name { font-weight: 700; font-size: 14.5px; }
+.exercise-meta { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+.exercise-chevron { color: var(--gold); font-size: 12px; transition: transform 0.15s; }
+.exercise-card.open .exercise-chevron { transform: rotate(90deg); }
+.exercise-body { display: none; padding: 0 14px 14px; }
+.exercise-card.open .exercise-body { display: block; }
+.exercise-tips {
+  font-size: 13px;
+  color: var(--text-secondary);
+  white-space: pre-line;
+  background: var(--surface-2);
+  border-left: 3px solid var(--gold);
+  padding: 10px 12px;
+  border-radius: 0 8px 8px 0;
+  margin-bottom: 12px;
+}
+.muscle-chip {
+  display: inline-block;
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--red-wash);
+  color: var(--red);
+  margin-top: 4px;
+}
+.set-row {
+  display: grid;
+  grid-template-columns: 28px 1fr 1fr;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.set-row .set-no { font-size: 12px; color: var(--text-muted); font-weight: 700; text-align: center; }
+.set-row input {
+  min-width: 0;
+  font-size: 15px;
+  padding: 9px;
+  border-radius: 7px;
+  border: 1px solid var(--border-strong);
+  background: var(--surface-2);
+  color: var(--text-primary);
+}
+.set-row input::placeholder { color: var(--text-muted); font-size: 12px; }
+.log-save-btn {
+  width: 100%;
+  padding: 10px;
+  margin-top: 4px;
+  font-size: 13px;
+  font-weight: 700;
+  border-radius: 8px;
+  border: 2px solid var(--gold);
+  background: none;
+  color: var(--gold);
+  cursor: pointer;
+}
+.log-save-btn.saved { background: var(--gold); color: #1a1400; }
+
+/* ===== Diet / macro results ===== */
+.plan-picker { display: flex; gap: 8px; margin-bottom: 10px; }
+.plan-btn {
+  flex: 1;
+  padding: 12px;
+  font-family: var(--font-display);
+  font-size: 18px;
+  border-radius: 9px;
+  border: 2px solid var(--border-strong);
+  background: var(--surface-2);
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+.plan-btn.active { background: var(--gold); border-color: var(--gold); color: #1a1400; }
+.plan-label { font-size: 12.5px; color: var(--text-secondary); white-space: pre-line; margin-bottom: 14px; }
+.macro-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 14px; }
+.macro-tile { background: var(--surface-2); border-radius: 9px; padding: 10px; text-align: center; }
+.macro-tile .label { font-size: 11px; color: var(--text-muted); }
+.macro-tile .value { font-family: var(--font-display); font-size: 17px; margin-top: 2px; }
+.macro-tile.protein .value { color: var(--red); }
+.macro-tile.carb .value { color: var(--gold); }
+.macro-tile.fat .value { color: var(--success); }
+.calorie-hero { text-align: center; margin-bottom: 14px; }
+.calorie-hero .value { font-family: var(--font-display); font-size: 40px; color: var(--gold); }
+.calorie-hero .label { font-size: 12px; color: var(--text-muted); }
+.food-list { display: flex; flex-direction: column; gap: 8px; }
+.food-row { display: flex; justify-content: space-between; font-size: 13.5px; padding: 8px 10px; background: var(--surface-2); border-radius: 8px; }
+.food-row .qty { font-weight: 700; color: var(--gold); }
+.supp-row { display: flex; justify-content: space-between; gap: 10px; padding: 10px; border-bottom: 1px solid var(--border); font-size: 13px; }
+.supp-row:last-child { border-bottom: none; }
+.supp-name { font-weight: 700; }
+.supp-dose { color: var(--gold); font-weight: 700; white-space: nowrap; }
+
+/* ===== 1RM ===== */
+.onerm-form { display: flex; flex-direction: column; gap: 12px; margin-bottom: 14px; }
+.onerm-form label { font-size: 13px; font-weight: 600; color: var(--text-secondary); display: flex; flex-direction: column; gap: 5px; }
+.onerm-form input, .onerm-form select {
+  font-size: 16px; padding: 11px; border-radius: 8px;
+  border: 1px solid var(--border-strong); background: var(--surface-2); color: var(--text-primary);
+}
+.onerm-result { text-align: center; }
+.onerm-result .value { font-family: var(--font-display); font-size: 36px; color: var(--red); }
+table.onerm-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+table.onerm-table th, table.onerm-table td { text-align: left; padding: 8px 6px; border-bottom: 1px solid var(--border); }
+table.onerm-table th { color: var(--text-muted); font-size: 11px; }
+table.onerm-table td.num { text-align: right; font-variant-numeric: tabular-nums; color: var(--gold); font-weight: 700; }
+
+/* ===== Changelog ===== */
+.changelog-entry { border-left: 3px solid var(--red); padding: 4px 0 14px 14px; margin-bottom: 6px; }
+.changelog-entry .date { font-size: 11px; color: var(--text-muted); font-weight: 700; }
+.changelog-entry .version { font-family: var(--font-display); font-size: 14px; color: var(--gold); margin: 3px 0 6px; }
+.changelog-entry .notes { font-size: 13px; color: var(--text-secondary); white-space: pre-line; }
+
+.app-footer { text-align: center; padding: 20px 16px 100px; font-size: 11px; color: var(--text-muted); }
+@media (min-width: 768px) { .app-footer { padding-bottom: 24px; } }
+
+.empty-hint { text-align: center; color: var(--text-muted); font-size: 13px; padding: 20px 0; }

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<title>ธรรมชาติลงโทษ — Natty Gains Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">ธรรมชาติ<span class="brand-accent">ลงโทษ</span></span>
+      <span class="brand-tag">100% NATTY · 0% EXCUSES 😤</span>
+    </div>
+    <span class="version-badge" id="version-badge">v?.?</span>
+  </header>
+
+  <nav class="tabbar" id="tabbar">
+    <button class="tab-btn active" data-view="setup">⚙️<span>ตั้งค่า</span></button>
+    <button class="tab-btn" data-view="workout">🏋️<span>เล่นวันนี้</span></button>
+    <button class="tab-btn" data-view="diet">🍚<span>กินไง</span></button>
+    <button class="tab-btn" data-view="onerm">📈<span>1RM</span></button>
+    <button class="tab-btn" data-view="changelog">📜<span>อัพเดท</span></button>
+  </nav>
+
+  <main id="app">
+    <!-- SETUP VIEW -->
+    <section class="view" id="view-setup">
+      <div class="card">
+        <h2>ก่อนเริ่ม ใส่ข้อมูลตัวเองก่อนพ่อคนแกร่ง 💪</h2>
+        <p class="hint">ข้อมูลพวกนี้เก็บไว้ในเครื่องคุณเท่านั้น (localStorage) ไม่มีเซิร์ฟเวอร์ ไม่มีใครเห็น ปลอดภัยกว่าซองครีเอทีนที่ซื้อมาไม่รู้ของแท้รึเปล่า</p>
+        <div id="setup-fields"></div>
+        <button type="button" class="btn-primary" id="save-setup-btn">บันทึกข้อมูล 💾</button>
+        <div class="save-toast" id="setup-saved-toast" hidden>บันทึกแล้วจ้า ✅</div>
+      </div>
+    </section>
+
+    <!-- WORKOUT VIEW -->
+    <section class="view" id="view-workout" hidden>
+      <div class="day-picker" id="day-picker"></div>
+      <div id="workout-content"></div>
+    </section>
+
+    <!-- DIET VIEW -->
+    <section class="view" id="view-diet" hidden>
+      <div class="card">
+        <h2>คำนวณการกิน 🍗</h2>
+        <p class="hint">ใส่น้ำหนักตัว/เป้าหมายในหน้าตั้งค่าก่อนนะ ไม่งั้นสูตรพังเหมือนไดเอทวันจันทร์ที่ไม่เคยรอด</p>
+        <div class="plan-picker" id="plan-picker">
+          <button type="button" class="plan-btn" data-plan="A">A</button>
+          <button type="button" class="plan-btn" data-plan="B">B</button>
+          <button type="button" class="plan-btn" data-plan="C">C</button>
+        </div>
+        <div id="plan-label" class="plan-label"></div>
+        <div id="diet-result"></div>
+      </div>
+      <div class="card">
+        <h2>อาหารเสริมแนะนำต่อวัน 💊</h2>
+        <p class="hint">ไม่กินก็ได้ถ้ากินอาหารหลักพอ แต่ถ้ากินให้กินตามนี้ ไม่ใช่ยาวิเศษ แค่ตัวช่วย</p>
+        <div id="supplements-result"></div>
+      </div>
+    </section>
+
+    <!-- 1RM VIEW -->
+    <section class="view" id="view-onerm" hidden>
+      <div class="card">
+        <h2>คำนวณ 1RM (ประมาณการ) 🔥</h2>
+        <p class="hint">ยกแบบฟอร์มถูก ไม่โกงระยะ ไม่งั้นเลขสวยแต่หมอนัดผ่าตัด</p>
+        <div class="onerm-form">
+          <label>น้ำหนักที่ยก (kg)<input type="number" id="onerm-weight" inputmode="decimal" min="0" step="0.5" /></label>
+          <label>จำนวนครั้งที่ยกได้
+            <select id="onerm-reps">
+              <option value="1">1 ครั้ง (100%)</option>
+              <option value="3">3 ครั้ง (90%)</option>
+              <option value="5">5 ครั้ง (85%)</option>
+              <option value="8">8 ครั้ง (80%)</option>
+              <option value="10">10 ครั้ง (75%)</option>
+            </select>
+          </label>
+        </div>
+        <div class="onerm-result" id="onerm-result"></div>
+      </div>
+      <div class="card">
+        <h2>น้ำหนักที่แนะนำจาก 1RM ของคุณ</h2>
+        <div id="onerm-table"></div>
+      </div>
+    </section>
+
+    <!-- CHANGELOG VIEW -->
+    <section class="view" id="view-changelog" hidden>
+      <div class="card">
+        <h2>Patch Notes 📜</h2>
+        <p class="hint">เครดิตสูตร/โปรแกรมทั้งหมด: <strong>P'Bay — Baygeta</strong>. เว็บนี้แค่แปลงร่างจาก Google Sheets มาเป็นหน้าเว็บให้เล่นง่ายขึ้นบนมือถือ</p>
+        <div id="changelog-list"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <p>License - Baygeta: คัดลอก แก้ไข แจกจ่ายได้อิสระ ห้ามขายหรือใช้เพื่อการค้า</p>
+  </footer>
+
+<script src="js/app.js"></script>
+</body>
+</html>
