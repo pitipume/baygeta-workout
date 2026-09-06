@@ -317,6 +317,7 @@ table.onerm-table td.num { text-align: right; font-variant-numeric: tabular-nums
 
 /* ===== Guide ===== */
 .guide-intro-p { font-size: 13.5px; color: var(--text-secondary); margin: 0 0 10px; line-height: 1.6; }
+.guide-photo { display: block; width: 100%; height: auto; border-radius: 8px; border: 2px solid var(--border-strong); margin-top: 10px; }
 .guide-section { background: var(--surface); border: 2px solid var(--border); border-radius: 12px; padding: 14px 16px; margin-bottom: 10px; }
 .guide-section .guide-no {
   display: inline-flex;

@@ -57,9 +57,9 @@ function renderGuide() {
   const guide = PROGRAM.guide;
   if (!guide) return;
 
-  document.getElementById('guide-intro').innerHTML = guide.intro
-    .map((p) => `<p class="guide-intro-p">${escapeHtml(p)}</p>`)
-    .join('');
+  document.getElementById('guide-intro').innerHTML =
+    guide.intro.map((p) => `<p class="guide-intro-p">${escapeHtml(p)}</p>`).join('') +
+    '<img class="guide-photo" src="assets/transformation.jpg" alt="P\'Bay ก่อน-หลัง 115kg → 85kg" loading="lazy" />';
 
   document.getElementById('guide-sections').innerHTML = guide.sections
     .map(
@@ -67,6 +67,7 @@ function renderGuide() {
     <div class="guide-section">
       <span class="guide-no">${escapeHtml(s.no)}</span><span class="guide-title">${escapeHtml(s.title)}</span>
       <div class="guide-body">${escapeHtml(s.body)}</div>
+      ${s.no === '4' ? '<img class="guide-photo" src="assets/bodyfat-chart.jpg" alt="ตารางเทียบ % ไขมันในร่างกาย" loading="lazy" />' : ''}
     </div>`,
     )
     .join('');
