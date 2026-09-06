@@ -45,10 +45,35 @@ function showView(name) {
   document.querySelectorAll('.view').forEach((v) => (v.hidden = true));
   document.getElementById('view-' + name).hidden = false;
   document.querySelectorAll('.tab-btn').forEach((b) => b.classList.toggle('active', b.dataset.view === name));
+  if (name === 'guide') renderGuide();
   if (name === 'workout') renderWorkoutDay(currentDayId || PROGRAM.workoutDays[0]?.id);
   if (name === 'diet') renderDiet();
   if (name === 'onerm') renderOneRmTable();
   if (name === 'changelog') renderChangelog();
+}
+
+// ---------------- guide view ----------------
+function renderGuide() {
+  const guide = PROGRAM.guide;
+  if (!guide) return;
+
+  document.getElementById('guide-intro').innerHTML = guide.intro
+    .map((p) => `<p class="guide-intro-p">${escapeHtml(p)}</p>`)
+    .join('');
+
+  document.getElementById('guide-sections').innerHTML = guide.sections
+    .map(
+      (s) => `
+    <div class="guide-section">
+      <span class="guide-no">${escapeHtml(s.no)}</span><span class="guide-title">${escapeHtml(s.title)}</span>
+      <div class="guide-body">${escapeHtml(s.body)}</div>
+    </div>`,
+    )
+    .join('');
+
+  document.getElementById('guide-intensity').innerHTML = guide.intensityScale
+    .map((r) => `<div class="intensity-row"><span class="level">${escapeHtml(r.level)}</span><span class="desc">${escapeHtml(r.description)}</span></div>`)
+    .join('');
 }
 
 // ---------------- setup view ----------------
@@ -374,6 +399,7 @@ async function init() {
   PROGRAM = await res.json();
 
   document.getElementById('version-badge').textContent = PROGRAM.version || 'v?';
+  renderGuide();
   renderSetupFields();
   renderDayPicker();
   currentDayId = PROGRAM.workoutDays[0]?.id || null;
@@ -392,4 +418,11 @@ async function init() {
   document.getElementById('onerm-reps').addEventListener('change', calcOneRm);
 }
 
-init();
+init().catch((err) => {
+  console.error('App failed to start:', err);
+  document.getElementById('app').innerHTML =
+    '<div class="card"><h2>โหลดแอปไม่สำเร็จ 😵</h2>' +
+    '<p class="hint">ลองรีเฟรชหน้าใหม่นะ ถ้ายังไม่ได้ส่งข้อความ error นี้ให้คนแก้: ' +
+    escapeHtml(err.message) +
+    '</p></div>';
+});

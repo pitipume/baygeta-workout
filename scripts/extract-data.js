@@ -111,6 +111,63 @@ function extractInputFields() {
   return fields;
 }
 
+// "เริ่มต้นอ่านก่อน" (read this first) — Baygeta's actual training philosophy
+// (7 numbered principles: nutrition, daily weigh-ins, sleep, body fat %, cardio,
+// progressive overload, injury management), not just file-copying instructions.
+// Layout is freeform prose scattered across a sheet, not a clean table, so this
+// extracts paragraph rows (rows with exactly one non-empty cell, wherever it
+// sits) and skips embedded illustrative tables except the intensity scale,
+// which is pulled out separately since it directly explains the "ความหนัก X/10"
+// values shown in the workout day sheets' Weight column.
+function extractGuide() {
+  const sheet = wb.Sheets['เริ่มต้นอ่านก่อน'];
+  if (!sheet) return null;
+  const rows = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: '', raw: false });
+
+  const nonEmpty = (row) => row.filter((c) => String(c).trim());
+  const firstNonEmpty = (row) => nonEmpty(row)[0] || '';
+  const HEADER = /^(\d+)\.(.+)$/;
+
+  const intro = [];
+  let i = 0;
+  for (; i < rows.length; i++) {
+    const cell = String(rows[i][0] || '').trim();
+    if (HEADER.test(cell)) break;
+    if (nonEmpty(rows[i]).length === 1 && cell) intro.push(cell);
+  }
+
+  const sections = [];
+  let current = null;
+  for (; i < rows.length; i++) {
+    const row = rows[i];
+    const cell = String(row[0] || '').trim();
+    const m = HEADER.exec(cell);
+    if (m) {
+      if (current) sections.push(current);
+      current = { no: m[1], title: m[2].trim(), body: [] };
+      continue;
+    }
+    if (!current) continue;
+    if (cell.startsWith('License') || cell.startsWith('บางคนอาจคิดว่า') || cell.startsWith('หมายเหตุ')) break;
+    const txt = firstNonEmpty(row);
+    if (nonEmpty(row).length === 1 && txt) current.body.push(txt);
+  }
+  if (current) sections.push(current);
+
+  const intensityScale = [];
+  const INTENSITY = /^ความหนัก\s+(\d+\/10)$/;
+  for (const row of rows) {
+    const m = INTENSITY.exec(String(row[1] || '').trim());
+    if (m) intensityScale.push({ level: m[1], description: String(row[3] || '').trim() });
+  }
+
+  return {
+    intro,
+    sections: sections.map((s) => ({ no: s.no, title: s.title, body: s.body.join('\n\n') })),
+    intensityScale,
+  };
+}
+
 function extractDietPlans() {
   const sheet = wb.Sheets['คำนวณการกิน'];
   const cell = (addr) => sheet[addr]?.w ?? sheet[addr]?.v ?? '';
@@ -129,6 +186,7 @@ const program = {
   version: changelog[0]?.version || '',
   sourceFile: xlsxFile,
   extractedAt: new Date().toISOString(),
+  guide: extractGuide(),
   inputFields: extractInputFields(),
   dietPlans: extractDietPlans(),
   workoutDays: WORKOUT_DAYS.map((d) => ({ id: d.id, name: d.sheet, exercises: extractWorkoutDay(d.sheet) })),

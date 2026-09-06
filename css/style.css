@@ -72,6 +72,7 @@ a { color: var(--gold); }
   padding-bottom: env(safe-area-inset-bottom, 0);
 }
 .tab-btn {
+  position: relative;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -91,9 +92,12 @@ a { color: var(--gold); }
 .tab-btn.active::before {
   content: '';
   position: absolute;
-  transform: translateY(-30px);
+  top: -2px;
+  left: 50%;
+  transform: translateX(-50%);
   width: 22px; height: 3px;
   background: var(--gold);
+  pointer-events: none;
   border-radius: 2px;
 }
 
@@ -310,6 +314,29 @@ table.onerm-table { width: 100%; border-collapse: collapse; font-size: 13px; }
 table.onerm-table th, table.onerm-table td { text-align: left; padding: 8px 6px; border-bottom: 1px solid var(--border); }
 table.onerm-table th { color: var(--text-muted); font-size: 11px; }
 table.onerm-table td.num { text-align: right; font-variant-numeric: tabular-nums; color: var(--gold); font-weight: 700; }
+
+/* ===== Guide ===== */
+.guide-intro-p { font-size: 13.5px; color: var(--text-secondary); margin: 0 0 10px; line-height: 1.6; }
+.guide-section { background: var(--surface); border: 2px solid var(--border); border-radius: 12px; padding: 14px 16px; margin-bottom: 10px; }
+.guide-section .guide-no {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px; height: 26px;
+  font-family: var(--font-display);
+  font-size: 13px;
+  background: var(--red);
+  color: #fff;
+  border-radius: 6px;
+  margin-right: 8px;
+  transform: rotate(-4deg);
+}
+.guide-section .guide-title { font-weight: 700; font-size: 15px; }
+.guide-section .guide-body { font-size: 13.5px; color: var(--text-secondary); white-space: pre-line; margin-top: 8px; line-height: 1.6; }
+.intensity-row { display: flex; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--border); align-items: baseline; }
+.intensity-row:last-child { border-bottom: none; }
+.intensity-row .level { font-family: var(--font-display); font-size: 13px; color: var(--gold); white-space: nowrap; }
+.intensity-row .desc { font-size: 12.5px; color: var(--text-secondary); }
 
 /* ===== Changelog ===== */
 .changelog-entry { border-left: 3px solid var(--red); padding: 4px 0 14px 14px; margin-bottom: 6px; }

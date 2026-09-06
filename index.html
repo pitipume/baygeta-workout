@@ -19,7 +19,8 @@
   </header>
 
   <nav class="tabbar" id="tabbar">
-    <button class="tab-btn active" data-view="setup">⚙️<span>ตั้งค่า</span></button>
+    <button class="tab-btn active" data-view="guide">📖<span>อ่านก่อน</span></button>
+    <button class="tab-btn" data-view="setup">⚙️<span>ตั้งค่า</span></button>
     <button class="tab-btn" data-view="workout">🏋️<span>เล่นวันนี้</span></button>
     <button class="tab-btn" data-view="diet">🍚<span>กินไง</span></button>
     <button class="tab-btn" data-view="onerm">📈<span>1RM</span></button>
@@ -27,8 +28,22 @@
   </nav>
 
   <main id="app">
+    <!-- GUIDE VIEW -->
+    <section class="view" id="view-guide">
+      <div class="card">
+        <h2>เข้าใจการเล่นสายธรรมชาติลงโทษ 🥋</h2>
+        <div id="guide-intro"></div>
+      </div>
+      <div id="guide-sections"></div>
+      <div class="card">
+        <h2>สเกลความหนัก (RPE) 🌡️</h2>
+        <p class="hint">ตัวเลข "ความหนัก X/10" ที่เห็นในคอลัมน์น้ำหนักของแต่ละท่า หมายถึงระดับนี้</p>
+        <div id="guide-intensity"></div>
+      </div>
+    </section>
+
     <!-- SETUP VIEW -->
-    <section class="view" id="view-setup">
+    <section class="view" id="view-setup" hidden>
       <div class="card">
         <h2>ก่อนเริ่ม ใส่ข้อมูลตัวเองก่อนพ่อคนแกร่ง 💪</h2>
         <p class="hint">ข้อมูลพวกนี้เก็บไว้ในเครื่องคุณเท่านั้น (localStorage) ไม่มีเซิร์ฟเวอร์ ไม่มีใครเห็น ปลอดภัยกว่าซองครีเอทีนที่ซื้อมาไม่รู้ของแท้รึเปล่า</p>
